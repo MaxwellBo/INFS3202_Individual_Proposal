@@ -20,7 +20,109 @@
 
 \chapter{Theory}
 
+\section{Rationale}
+
+Designed to solve a very specific problem borne of my own experience at university.
+
+I noticed that immediately after leaving classes, I was sending similiar message to many group chats across Slack and Facebook, asking if any people wanted to get lunch with me.
+
+Thus, I required a service that would:
+
+\begin{itemize}
+    \item Be aware of when I was leaving classes
+    \item Be aware of my friends timetables, and when they were likely on breaks between classes
+    \item Inform me, immediately on leaving a class, who was free and how long they are free for
+\end{itemize}
+
+My friends also expressed frustration that it was difficult to find times where all members of a certain group had breaks between classes, to coordinate meetups.
+
+They required a service that would:
+
+\begin{itemize}
+    \item Allow them to create groups of people of whom they wished to see shared break timetables
+    \item Be aware of the group timetables, and when they were likely on breaks between classes
+    \item Create a list of free times that the group can meet together
+\end{itemize}
+
+I realized that both of these problems could be addressed by very similiar services. 
+
+\section{Business Function}
+
+% TODO: is henceforth the right word to use here % 
+A client wishing to use the service (henceforth referred to as \textit{SyncUQ} or \textit{`the app'}) would face the following workflow.
+
+% TODO: Change to numeric
+\begin{itemize}
+    \item Upon navigating to \href{http://www.syncuq.com.au/}{\texttt{syncuq.com.au}}, the client is presented the UQ Single Sign-On (henceforth referred to as \textit{UQ SSO}).
+    \item After signing on with the UQ credentials, a list of timetables, with correspodning checkboxes, allows the client to choose which timetbles are to be imported from \href{http://timetableplanner.app.uq.edu.au/}{\texttt{timetableplanner.app.uq.edu.au}} (henceforth referred to as \textit{UQ Timetable Planner}). A single \texttt{Import} button, allows the client to confirm their selection.
+    \item The client is presented a choice of different tabs, corresponding to different features, including: 
+        \begin{itemize}
+            \item \texttt{Friends}
+            \item \texttt{Groups}
+            \item \texttt{Settings}
+        \end{itemize}
+
+
+
+\end{itemize}
+
+
 Justify the development language and environment that you will use.
+
+\href{https://www.python.org/}Python 3.6
+
+
+Priorities
+- Mature microframework
+- Mature datetime libarries
+- Decent support for icalendar file format parsing
+
+
+- All members of the group know it
+- Optional typing system with the typing https://docs.python.org/3/library/typing.html and mypy TODO: href (as I have experience with typed functional languages)
+- Good support for microframeworks (not Ruby)
+
+Framework: Flask. Not a bigass framework that's confusing and full of footguns, unnecessary garbage and opinionated methods of doig stuff.
+Promoted by Heroku as the framework of choice to use with Python -> going to be a lot of documentaton regarding this stack when things go bad
+
+SQLAlchemy
+
+ical framework looked mature as well
+
+other options considered
+
+
+Clojure with compojure -> hugo knows some clojure, I'd be willing to learn some. However we were worried that if we got up shit creek clojure would make it very painful to punch our way out considering its functional nature
+
+datetime and ical are obviously very good due to being on the JVM
+
+
+Rust with Rocket framework. Inferior ical framework. Borrow checker seemed shitty.
+
+Scala. I have a lot of Scala experience. Hugo and Charlie have Java experience so that knowledge was gonna carry over.
+
+Options - Play framework, not microframework
+- HTTP4S, Doobie (database abstraction layer) (type system can get fucked up), Circe JSON encoding (typesafe, pretty cool magic), Cats so Scala wouldn't suck
+
+Heavy, cripling build time, unfamiliar stackt the majority of the group, IDE support required (would rather not)
+
+
+
+
+Rest API, no server side HTML generation. Better decoupling between front-end and back-end. Permits implementation of dynamic SPAs with front-end virtual DOMS. Permits the creation of native mobile apps with react native or some shit later on (although we aren't doing that, you kinda need a REST API for that)
+
+Frontend
+
+wanted to use a functional compile-to-js language, because fuck javascript
+
+Understood that some of the solutions and young and immature, but we're hipsters so we want to do that (we're using a tried and tested solution in the backend, lets have some fun in the frontend)
+
+- Escape hatches: import React components, decent Javascript FFI
+
+ClojureScript and https://reagent-project.github.io/ (dismissed because difficult to use syntax, hugo didn't want to)
+Elm (dismissed because JavaScript FFI sucks balls, react integration too)
+PureScript with Pux (good javascript ffi, good react integration)
+
 
 \chapter{Design}
 
