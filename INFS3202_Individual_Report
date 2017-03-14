@@ -1,0 +1,236 @@
+\documentclass[11pt,a4paper]{report}
+
+\usepackage[margin=1in]{geometry}
+
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+
+\usepackage[colorlinks = true,
+            linkcolor = blue,
+            urlcolor  = blue,
+            citecolor = blue,
+            anchorcolor = blue]{hyperref}
+
+\begin{document}
+
+\title{DECO2800 \\ Individual Portfolio}
+\author{Maxwell Bo}
+\date{October 31, 2016}
+\maketitle
+
+\chapter{Individual Work}
+
+ \begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Contributions.png}
+ \end{figure}
+
+\href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/commits?author=MaxwellBo}{Commit list}
+
+\section{The Hex Grid}
+
+I suggested to \textit{Halflife\_3\_Confirmed} that an alternate gameboard might be a feature that the team could pursue.\\ 
+
+I wrote \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/issues/14}{\textit{Ticket \#14 (``Implement Hex Grid Mutator'')}} to outline the rationale and inspiration, and provide a clear path for its implementation. I strongly believed that an additional spatial dimension would have provided other teams design space that was sufficiently distinct from other existing game systems (e.g. a single team could focus purely on, say, movement abilities, without causing integration issues).\\
+
+As such, I implemented:
+
+\begin{itemize}
+    \item The \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/HexGrid/pyramidscheme/src/main/java/uq/deco2800/pyramidscheme/hexgrid/Hex.java}{\texttt{Hex}} class. \texttt{Hex} is a simple, immutable 3D vector datatype. It was created to exist as an expression of a \texttt{HexTile}'s coordinates. It had some Hex related quirks (calculation of neighbours), which ruled out the use of \textit{JavaFX}'s \href{https://docs.oracle.com/javase/8/javafx/api/javafx/geometry/Point3D.html}{\texttt{Point3D}}.
+
+    \item The \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/HexGrid/pyramidscheme/src/main/java/uq/deco2800/pyramidscheme/hexgrid/HexGrid.java}{\texttt{HexGrid}} class. \texttt{HexGrid} was the primary container class for all \texttt{HexTile}s. It was to be responsible for the creation, initialization and arrangement of the board. Interestingly, many of its methods were purposely package private. I intended use of \texttt{HexGrid} instance methods to be rare. Rather, the programmer would extract a reference to \texttt{HexTile}, perhaps with a \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/HexGrid/pyramidscheme/src/main/java/uq/deco2800/pyramidscheme/hexgrid/HexGrid.java#L73}{\texttt{getTileAt(int x, int y)}} call, and use interfaces exposed by \texttt{HexTile}. I find this abstract to a mix of both the \href{https://en.wikipedia.org/wiki/Facade_pattern}{\textit{Facade pattern}}, and the functional \href{https://wiki.haskell.org/Zipper}{\textit{Zipper pattern}}.
+
+    \item The \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/HexGrid/pyramidscheme/src/main/java/uq/deco2800/pyramidscheme/hexgrid/HexTile.java}{\texttt{HexTile}} class. This class would serve as the container class for the unimplemented \texttt{Minion} class. \texttt{Minion}s would be placed and extracted from \texttt{HexTile}s as the game progressed. The class also includes utility functions such as the implementation of a \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/HexGrid/pyramidscheme/src/main/java/uq/deco2800/pyramidscheme/hexgrid/HexTile.java#L69}{breadth-first pathfinding algorithm}, and a \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/HexGrid/pyramidscheme/src/main/java/uq/deco2800/pyramidscheme/hexgrid/HexTile.java#L107}{flood fill range algorithm}. The use of the \texttt{Optional} monad as the main return type in many methods, rather than \texttt{null}able objects, would have allowed these methods to be chained together using the \href{https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#flatMap-java.util.function.Function-}{\texttt{flatMap}} function, trivially permitting complex pathfinding arrangements and \texttt{Minion} interactions. 
+\end{itemize}
+
+Other support classes that I authored can be found in the \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/tree/HexGrid/pyramidscheme/src/main/java/uq/deco2800/pyramidscheme/hexgrid}{\texttt{hexgrid}} package, on the \texttt{HexGrid} branch.
+
+The implementation of these classes, while unused in the final codebase, served as effective prototypes for the board rework that took place during the refactoring of \texttt{BasicMatchController}.
+
+Ultimately, the \textit{Hex Grid} was \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/issues/14#issuecomment-247825827}{shelved}. \textit{Hex Grid} was designed as a \textit{replacement} to the original lane board arrangement (which was assigned the moniker \textit{``Rec Board"}). However, the project had decided that the \textit{Rec Board} should be preserved, and the \textit {Hex Grid} mutator would be added as an additional gametype. This would have blown out the maintenance load, as all game features would have had to have been compatible with both the \textit{Rec Board} and the \textit {Hex Board}. 
+
+There are vestiges of my attempts at creating a common interface between both the \textit{Hex Grid} and \textit{Rec Board} systems, namely:
+
+
+\begin{itemize}
+    \item \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/master/pyramidscheme/src/main/java/uq/deco2800/pyramidscheme/board/Board.java}{\texttt{Board}}, superclass of both
+    \begin{itemize}
+        \item \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/HexGrid/pyramidscheme/src/main/java/uq/deco2800/pyramidscheme/hexgrid/HexGrid.java}{\texttt{HexGrid}}
+
+        \item \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/master/pyramidscheme/src/main/java/uq/deco2800/pyramidscheme/board/RecBoard.java}{\texttt{RecBoard}}
+    \end{itemize}
+
+    \item \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/master/pyramidscheme/src/main/java/uq/deco2800/pyramidscheme/board/Tile.java}{\texttt{Tile}}, superclass of both
+    \begin{itemize}
+        \item \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/HexGrid/pyramidscheme/src/main/java/uq/deco2800/pyramidscheme/hexgrid/HexTile.java}{\texttt{HexTile}}
+
+        \item \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/master/pyramidscheme/src/main/java/uq/deco2800/pyramidscheme/board/RecTile.java}{\texttt{RecTile}}
+    \end{itemize}
+
+    \item \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/master/pyramidscheme/src/main/java/uq/deco2800/pyramidscheme/board/TileOccupant.java}{\texttt{TileOccupant}}, superclass of both
+    \begin{itemize}
+        \item \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/HexGrid/pyramidscheme/src/main/java/uq/deco2800/pyramidscheme/hexgrid/Minion.java}{\texttt{Minion}}
+
+        \item \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/master/pyramidscheme/src/main/java/uq/deco2800/pyramidscheme/match/MatchCard.java}{\texttt{MatchCard}}
+    \end{itemize}
+
+\end{itemize}
+
+but ultimately, this generic interface was never used.
+
+
+\section{The Refactor}
+
+I initially developed \texttt{hexgrid} \href{https://github.com/MaxwellBo/HexGrid/tree/master/src}{in a private repository}, to prototype some class hierarchy decisions, using Java \textit{Swing} as the graphics framework. While it was mostly functional, the biggest barrier to integration into the primary project repository was \texttt{BasicMatchController}.
+
+I quickly noticed that the technical debt of \texttt{BasicMatchController} was inhibiting progress for numerous groups. Team \textit{QuackPack}, who had opened \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/issues/22}{\textit{Ticket \#22 (``Pyramid Mechanics'')}}, were facing significant roadblocks.
+
+In response to this, I wrote and opened \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/issues/40}{\textit{Ticket \#40 (``Refactor \texttt{BasicMatchController}'')}}, which, in retrospect, accurately described the problem at hand and the solutions that needed to be implemented.
+
+In order to complete this ticket, I had to:
+
+\begin{itemize}
+
+    \item \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/tree/master/pyramidscheme/src/main/java/uq/deco2800/pyramidscheme/board}{Extract the \textit{Rec Board} functionality into the \texttt{Board} package}. As outlined before, this shared a similar architecture to that of the \textit{Hex Grid}. Particular care was made to \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/search?utf8=%E2%9C%93&q=draw}{preserve} the \href{https://en.wikipedia.org/wiki/Chain-of-responsibility_pattern}{\textit{Chain-of-responsibility pattern}} with \texttt{obj.draw(GraphicsContext gc)} calls. \footnote{This pattern can be seen continually in \texttt{board}, \texttt{match} and \texttt{pyramid} packages, in all classes that I authored. It allowed parent classes to dictate how their children were drawn, with little inter-object communication, and loosely coupled all drawable elements on the screen.}
+
+    \item \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/commit/f05430986c0f9fcf44f89f9b85694458bdd45811}{Aggressively refactor} \texttt{BasicMatchController} \footnote{Much of the \texttt{BasicMatchController} refactoring concerned the \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/a98135fa78b9246c9abecdb7c4268ca2150176ba/pyramidscheme/src/main/java/uq/deco2800/pyramidscheme/controllers/BasicMatchController.java\#L309}{\texttt{handleCanvasClick}}, \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/a98135fa78b9246c9abecdb7c4268ca2150176ba/pyramidscheme/src/main/java/uq/deco2800/pyramidscheme/controllers/BasicMatchController.java\#L454}{\texttt{cleanupStep}} and \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/a98135fa78b9246c9abecdb7c4268ca2150176ba/pyramidscheme/src/main/java/uq/deco2800/pyramidscheme/controllers/BasicMatchController.java\#L562}{\texttt{handleMouseMoved}} methods} \texttt{Match}, \texttt{MatchPlayer}, \texttt{Player} and \texttt{MatchCard}, rework \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/master/pyramidscheme/src/main/java/uq/deco2800/pyramidscheme/pyramid/Pyramid.java}{\texttt{Pyramid}} and \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/master/pyramidscheme/src/main/java/uq/deco2800/pyramidscheme/pyramid/PyramidCard.java}{\texttt{PyramidCard}} and delete \texttt{AI}.
+
+ \end{itemize}
+
+I subsequently authored \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/master/pyramidscheme/src/test/java/uq/deco2800/pyramidscheme/match/MatchAITest.java}{half of \texttt{MatchAITest}}, \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/master/pyramidscheme/src/test/java/uq/deco2800/pyramidscheme/match/MatchCardTest.java}{\texttt{MatchCardTest}}, \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/master/pyramidscheme/src/test/java/uq/deco2800/pyramidscheme/match/MatchPlayerTest.java}{\texttt{MatchPlayerTest}}, \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/master/pyramidscheme/src/test/java/uq/deco2800/pyramidscheme/match/MatchDeckTest.java}{\texttt{MatchDeckTest}}, \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/master/pyramidscheme/src/test/java/uq/deco2800/pyramidscheme/pyramid/PyramidTest.java}{some of \texttt{PyramidTest}}, \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/master/pyramidscheme/src/test/java/uq/deco2800/pyramidscheme/pyramid/PyramidCardTest.java}{\texttt{PyramidCardTest}} and \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/master/pyramidscheme/src/test/java/uq/deco2800/pyramidscheme/board/RecBoardTest.java}{\texttt{RecBoardTest}}, to test edge cases that may have not cropped up in user testing.
+
+I believe this refactor had a positive, wide ranging effects on the health of the project.
+
+It:
+
+\begin{itemize}
+    \item Closed \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/issues/13}{\textit{Ticket \#13 (``Allow cards to be draggable onto the field'')}}
+    \item Prepared for the possible completion of \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/issues/14}{\textit{Ticket \#14 (``Implement Hex Grid Mutator'')}} 
+    \item Satisfied \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/issues/3}{\textit{Ticket \#3} (``Indicate selected card")}\footnote{Satisfied by \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/commit/dfefeba9a5a475e89342cc194c8275360c87f9e6}{\texttt{dfefeba}}}
+    \item Satisfied some of \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/issues/22}{\textit{Ticket \#22 (``Pyramid Mechanics'')}}'s milestones, namely:
+
+    \begin{itemize}
+        \item \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/commit/f0ac7f45c4df6694408caf87244c1e37eaff4b0f}{Refactored \texttt{PyramidCard}} and the entire \texttt{Pyramid}, providing a basic pyramid framework for \textit{QuackPack} to build upon
+        \item \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/commit/f0ac7f45c4df6694408caf87244c1e37eaff4b0f\#diff-9f235f95066aaa944fb25765711f84a2R29}{``Allow the pyramid to be repositioned live on the screen for \#25''}
+        \item \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/commit/f0ac7f45c4df6694408caf87244c1e37eaff4b0f\#diff-9f235f95066aaa944fb25765711f84a2R43}{``Add support for additon {[}sic{]} pyramid types''}
+        \item ``All functions documented'', with contributing commits \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/commit/3d79e279c851443f273996fe3942bdc8f2baf06e}{\texttt{3d79e27}} and \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/commit/90dd96511f1320118fb9ee568cf91995a5fb0a87}{\texttt{90dd965}} 
+    \end{itemize}
+\end{itemize}
+
+Fundamentally, the refactor upheld design patterns already explored in the \textit{Hex Grid}, such as the the \href{https://en.wikipedia.org/wiki/Facade_pattern}{\textit{Facade pattern}}, \href{https://en.wikipedia.org/wiki/Chain-of-responsibility_pattern}{\textit{Chain-of-responsibility pattern}}, and the not yet discussed \href{https://en.wikipedia.org/wiki/Composite_pattern}{\textit{Composite pattern}}\footnote{The \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/master/pyramidscheme/src/main/java/uq/deco2800/pyramidscheme/board/RecTile.java}{\texttt{RecTile}}s composed the structure of the \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/master/pyramidscheme/src/main/java/uq/deco2800/pyramidscheme/board/RecBoard.java}{\texttt{RecBoard}}.} 
+
+\section{The Match Deck}
+
+I created the \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/master/pyramidscheme/src/main/java/uq/deco2800/pyramidscheme/match/MatchDeck.java}{\texttt{MatchDeck}}\footnote{Added in \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/commit/20db98e508cb49090c8ee2e58b49cf6f3ddade8c}{\textit{20db98e}}} which satisfied milestones from \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/issues/12}{\textit{Ticket \#12 - (``CardFlow Mechanics and Game Continuation")}} including:
+
+\begin{itemize}
+    \item ``Player Deck and Deck Size Displayed on Screen''
+    \item ``Player Discard and Discard Size Displayed on Screen''
+    \item \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/6acc5545560fb6685c709032d23eb0342b823f4d/pyramidscheme/src/main/java/uq/deco2800/pyramidscheme/match/MatchDeck.java\#L126}{``Shuffle
+      Mechanic Implementation''}
+    \item \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/commit/54fbc32d67fdc76f396ea66f2122294dc84f87c9\#diff-3dc5f9a3818f63e55b566fa80a9253dbR259}{Hand Re-population Mechanic Implementation}
+\end{itemize}
+
+
+This implementation survived, unchanged both implementation wise and aesthetically, into the final build of the game.
+
+\section{The State Machine}
+
+Methods \texttt{BasicMatchController::handleCanvasClick} were beginning to get \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/a98135fa78b9246c9abecdb7c4268ca2150176ba/pyramidscheme/src/main/java/uq/deco2800/pyramidscheme/controllers/BasicMatchController.java#L309}{large and unmaintainable}. \textit{QuackPack} had also floated the idea of implementing an animation system.
+
+Considerations included:
+
+\begin{itemize}
+    \item Splitting functionality of \texttt{BasicMatchController} into its own state machine
+    \item Preserving a simple class hierarchy between the \texttt{RecBoard} instances and the \texttt{MatchAI} instance
+    \item Running multiple animations simulatenously
+\end{itemize}
+
+In collaboration with Nick Potts from \textit{QuackPack}, we developed a new architecture. Much of its planning is captured in:
+
+\begin{itemize}
+    \item \hyperref[DFD]{Figure 1.1}
+    \item \hyperref[StateTransitionGraph]{Figure 1.2}
+    \item \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/issues/58}{\textit{Ticket \#58 (``Implement animations for items on the GameBoard'')}}
+    \item Kanban board \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/projects/1}{\textit{``Refactor `BasicMatchController` on StateMachine branch"}}
+    \item \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/issues/68}{\textit{Ticket \#68 (``Refactor BasicMatchController, GameState and AnimationController into a State Machine '')}}
+\end{itemize}
+
+
+This design captured elements of the \href{http://gameprogrammingpatterns.com/state.html}{state pattern}, and the \href{http://gameprogrammingpatterns.com/update-method.html#passing-time}{update method}\footnote{Seen in \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/StateMachine/pyramidscheme/src/main/java/uq/deco2800/pyramidscheme/controllers/Animations/Animatable.java}{\texttt{Animatable}, designed to permit multiple, non-blocking animations}}. 
+
+Of note, was the extraction of all gamestate to a seperate \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/master/pyramidscheme/src/main/java/uq/deco2800/pyramidscheme/game/GameState.java}{\texttt{GameState}} class, with an IO-mediating \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/tree/master/pyramidscheme/src/main/java/uq/deco2800/pyramidscheme/controllers/statemachine}{\texttt{StateMachine}} sitting between \texttt{GameState} and \texttt{BasicMatchController}.
+
+I subsequently authored much of the \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/commit/a2a1a75c683d5bb9fe5d4cf7cc09bdd47d149507}{initial implementation} and provided technical assistance to Nick Potts through Slack and in studio sessions for the remainder of the project.
+
+\section{Multiplayer}
+
+The addition of multiplayer to the game was judged to be technically infeasible, from the outset. However, changes had been made to the code base that allowed its implementation to be relatively painfree. The statemachine made the integration of multiplayer trivial, swapping out the \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/master/pyramidscheme/src/main/java/uq/deco2800/pyramidscheme/controllers/statemachine/MatchAITurn.java}{\texttt{MatchAITurn}} node for the \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/blob/master/pyramidscheme/src/main/java/uq/deco2800/pyramidscheme/controllers/statemachine/MultiplayerWait.java}{\texttt{MultiplayerWait}} node. Further work was required to \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/tree/master/pyramidscheme/src/main/java/uq/deco2800/pyramidscheme/animations}{decouple animation} from \texttt{MatchAITurn} so that the animations were able to be triggered by \texttt{MultiplayerWait}.
+
+I wrote \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/issues/79}{\textit{Ticket \#79 (Multiplayer)}} to outline the "path of least resistance" to multiplayer. I proposed multiple design paths, which are detailed as follows:
+
+\begin{itemize}
+    \item \textit{The ``Authoritative Client" proposal}. While Singularity would mediate matchmaking between clients, once a suitable pairing had been found, \textit{Singularity} would connect the pair, to a third client, running a headless copy of \textit{Pyramid Scheme}. This would be the ``single source of truth" for both clients, and the other clients would keep their state synchronized with this authority. This was dismissed as the clients would have to ``pull" the entire gamestate from the authority, which may have involved serializing the entire gamestate. The \textit{``Authoritative Client"} model may have worked for games where all clients view the same gamestate (such as \href{https://en.wikipedia.org/wiki/Real-time_strategy}{RTS games}). \textit{Pyramid Scheme} was not one of those games.
+    \item \textit{The ``Synchronous State" proposal}. Quoting from \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/issues/79}{\textit{Ticket \#79 (Multiplayer)}}, \textit{``Both clients have complete knowledge of the [synchronized] game-state at any one time. It is the duty of both clients to ensure that necessary information is relayed through Singularity to the opposing client to ensure that their states do not desynchronize. Implementors [...] need to be mindful of non-determinism."}. Ultimately, this was the design chosen.
+    \item \textit{The ``Self-inflicted Synchronous State" proposal}. When an ingame event occurs
+        \begin{enumerate}
+            \item The game updates its own internal state accordingly.
+            \item The game fires off a message to \textit{Singularity}, to be forwarded to the other client, with the necessary information to keep the other client's state synchronized.
+        \end{enumerate} This proposal sought to combine the code required for both of these steps. Rather than performing the first step, the game would \textit{send a message to itself}, unpacking the necessary information from the message, and updating the gamestate accordingly.
+
+        \begin{itemize}
+            \item \textit{Pro} - Implementors would only need to write one interface, for both multiplayer and local game events, rather than two.
+            \item \textit{Con} - It would have required the \textit{rework of existing} game event code, rather than the \textit{addition of new code} as required by the \textit{``Synchronous State"} proposal; this would have likely taken more time than we had.
+            \item \textit{Pro} - Verifiability. If the game works locally, it probably works in multiplayer mode, due to the unified game event interface.
+        \end{itemize}
+\end{itemize}
+
+Following this decision, I wrote \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/wiki/Multiplayer}{the protocol} to be used with the \textit{``Synchronous State"} model.
+
+Both the model and the protocol were successfully implemented, without major hiccup, or significant deviation from what was outlined.
+
+\section{General Reflection}
+
+I found the rate at which the projects complexity became mentally overwhelming, quite surprising. The bulk of my work took place at the beginning of the project - much of the essential complexity of the project, at that time, was of my own creation. Code contributions to the project before Checkpoint 2 were small compared the ones made during Checkpoint 1. In retrospect, I should have maintained greater awareness of the architectual changes to the codebase in the later weeks of the project.
+
+I failed to use UML at all during the course of the project. Following Checkpoint 1, I transitioned into a high-level, planning role. I managed this with \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/issues/79}{carefully timelined checklists}, but I believe that the use of UMLs may have greatly enhanced the specification, preventing implementors from ``straying off the beaten track'', so to speak.\footnote{After alerting Nick Potts to an alternate implementation of the multiplayer queue (the use of \texttt{Set}s to maintain a client pool) outlined in the specification, he admitted that ``[he] should have probably read the spec''}.
+
+Finally, I would have finished \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/issues/40}{\textit{Ticket \#40 (``Refactor \texttt{BasicMatchController}'')}}.
+
+ \begin{figure}[p]
+    \label{DFD}
+    \caption{Data Flow Diagram for the state machine, detailing interactions between the user, \texttt{MatchAI}, the \texttt{StateNode}s and \texttt{GameState}}
+    \centering
+    \includegraphics[width=0.9\textwidth]{1.jpg}
+\end{figure}
+ \begin{figure}[p]
+    \label{StateTransitionGraph}
+    \caption{State transition graph draft}
+    \centering
+    \includegraphics[width=0.9\textwidth]{2.jpg}
+\end{figure}
+
+\chapter{Group Work}
+
+
+\textit{Halflife\_3\_Confirmed} also contributed:
+
+\begin{itemize}
+    \item Parts of the \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/wiki/Future-Development}{Future Development Report}
+    \item \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/wiki/Team-Half_Life_3_Confirmed-Checkpoint-2-General}{The Tutorial Mode}
+    \item \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/wiki/Team-Half_Life_3_Confirmed-Checkpoint-2-General}{User Evaluation Testing}
+\end{itemize}
+
+\textit{Halflife\_3\_Confirmed} collaborated mainly in studio sessions - while there was communication on Facebook, it was rare, sporadic, and only before deadlines. Communication about issues other than scheduling and submission were rare. I attribute this to an unspoken ``leave everyone to their own devices'' agreement between all members of the group. This agreement was never challenged; no member attempted to ``kick the team into gear''.
+
+Thus, work was never assigned in a formal capacity. Following the shelving of \href{https://github.com/UQdeco2800/deco2800-2016-pyramidscheme/issues/40}{\textit{Ticket \#40 (``Refactor \texttt{BasicMatchController}'')}}, most of the teams work was purely technical and concerned itself more with testing, refactoring and documentation, which required minimal coordination. Often, I would implement features, and Jake Parker and Tien Huy Nguyen would write white-box tests. I would proceed to write the black-box tests, either weakening the contract outlined in the Javadoc, or reworking the implementation.
+
+Having no singular, clear goal in the project likely harmed the productivity of the group. No effort was made to scrutinise the work of other group members, as members worked on separate aspects of the project, with little overlap. In reflection, a goal that aims to address the needs of a single \href{https://en.wikipedia.org/wiki/Persona_(user_experience)}{user persona} may drive and unify development.
+
+Disparities in programming skill caused significant issues. As the strongest programmer of the group, I believe I failed to adequately guide other members of the group, and provide them opportunities to assist them with implementation.
+
+Members of the team, at times, did not meet expectations in terms of time and effort contributed. Often, this led to the team failing to keep this member up to speed, likely further exacerbating the problem.
+
+In reflection, having concrete, timetabled, face-to-face meetings could have unified the team and increased productivity for those who were struggling with the content.
+
+\end{document}
