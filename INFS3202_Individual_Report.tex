@@ -83,6 +83,43 @@ A client wishing to use the service (henceforth referred to as \textit{SyncUQ} o
 
 Whenever a client's scheduled classes are ending, and if the client had permitted their mobile app to send them push notifications, the client will be notified of which of their friends are currently are on, or are starting, breaks. \textit{`Opening'} this notification will present the client the \texttt{Friends} tab of the app.
 
+
+\section{Development Language and Environment}
+
+\subsection{Backend}
+
+I identfied 6 of requirements on the backend language and environment.
+
+\begin{enumerate}
+    \item Could not be Perl, PHP, or Java
+    \item Should support a mature, stable and frequently used microframework
+    \item Should support an industry-grade date and time library
+    \item Should support a stable \textit{iCalendar} (\texttt{.ics}) file parser
+    \item Should be syntactically and semantically familiar to \textit{all} members of the group
+    \item Should have first-class support or documentation for deployment to \href{http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html}{Amazon EC2} or \href{https://www.heroku.com/}{Heroku} cloud services
+ \end{enumerate}
+
+A number of considered languages and environments failed to meet these requirements.
+
+\begin{itemize}
+    \item Haskell, using \href{https://github.com/scotty-web/scotty}{Scotty} failed requirements 3, 5, and 6
+    \item Rust, using \href{https://rocket.rs/overview/}{Rocket}, failed requirements 2 (on the grounds that Rocket was immature), 3, 4, 5 and 6
+    \item Clojure, using \href{https://github.com/weavejester/compojure}{Compojure}, failed requirement 5
+\end{itemize}
+
+Python and Scala met all requirements. 
+
+If Python were to be used, it would use
+
+\begin{itemize} 
+    \item The \href{http://flask.pocoo.org/}{Flask} microframework
+    \item The \href{http://flask-sqlalchemy.pocoo.org/2.1/}{Flask-SQLAlchemy} database abstraction layer
+    \item The \href{https://pypi.python.org/pypi/icalendar}{icalendar} \textit{iCalendar} parser
+    \item The \href{http://mypy-lang.org/}{mypy} static type checker
+    \item Heroku, with the \href{https://github.com/heroku/heroku-buildpack-python}{Python buildpack}
+\end{itemize}
+
+
 \href{https://www.python.org/}Python 3.6
 
 
