@@ -54,16 +54,30 @@ A client wishing to use the service (henceforth referred to as \textit{SyncUQ} o
 % TODO: Change to numeric
 \begin{itemize}
     \item Upon navigating to \href{http://www.syncuq.com.au/}{\texttt{syncuq.com.au}}, the client is presented the UQ Single Sign-On (henceforth referred to as \textit{UQ SSO}).
-    \item After signing on with the UQ credentials, a list of timetables, with correspodning checkboxes, allows the client to choose which timetbles are to be imported from \href{http://timetableplanner.app.uq.edu.au/}{\texttt{timetableplanner.app.uq.edu.au}} (henceforth referred to as \textit{UQ Timetable Planner}). A single \texttt{Import} button, allows the client to confirm their selection.
-    \item The client is presented a choice of different tabs, corresponding to different features, including: 
+    \item After signing on with the UQ credentials, a dropdown of timetables, allows the client to choose which timetable is to be imported from \href{http://timetableplanner.app.uq.edu.au/}{\texttt{timetableplanner.app.uq.edu.au}} (henceforth referred to as \textit{UQ Timetable Planner}). A single \texttt{Import} button, allows the client to confirm their selection.
+    \item The client is presented a choice of different tabs, corresponding to different features. Each tab, presents a different workflow.
         \begin{itemize}
             \item \texttt{Friends}
+                \begin{itemize}
+                    \item The client is presented with a \textit{`friend token'}, which they may send to a present to a friend that they wish to \textit{`follow'}.
+                    \item The client is presented with a field that allows them to enter a \textit{friend token}, 
+                    \item The client is presented with a list of friends that they have \textit{followed}. These entries have two forms: 
+                        \begin{itemize}
+                            \item \textit{Pending follow}, where the the friend has not approved their \textit{follow request}
+                            \item \textit{Pending follow request}, where a friend has requested to \textit{follow} the client, but the client has yet to approve the \textit{follow request}. Two buttons, 
+                            \item \textit{Confirmed}, with a date and time, indicating the instant that both the client and that friend share a break, a \textit{Time until}, indicating the duration in time and minutes until that instant begins, and a \textit{Duration}, indicating the duration of the shared break
+                        \end{itemize}
+                \end{itemize}
             \item \texttt{Groups}
+                \begin{itemize}
+                    \item Placeholder
+                \end{itemize}
+            \item \texttt{Import}
+                \begin{itemize}
+                    \item The client is presented with the same screen as \textit{Step 2}, so that they may refresh their chosen timetable, in the event that that they may have modified their timetable on \textit{UQ Timetable Planner}, or a new semester has begun.
+                \end{itemize}
             \item \texttt{Settings}
         \end{itemize}
-
-
-
 \end{itemize}
 
 
