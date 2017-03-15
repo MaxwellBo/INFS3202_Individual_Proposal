@@ -1,6 +1,7 @@
 \documentclass[11pt,a4paper]{report}
 
 \usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
 
 \usepackage{graphicx}
 \graphicspath{ {images/} }
@@ -64,13 +65,9 @@ A client wishing to use the service (henceforth referred to as \textit{SyncUQ} o
                     \item The client is presented with a list of friends that they have \textit{followed}. These entries have two forms: 
                         \begin{itemize}
                             \item \textit{Pending follow}, where the the friend has not approved their \textit{follow request}
-                            \item \textit{Pending follow request}, where a friend has requested to \textit{follow} the client, but the client has yet to approve the \textit{follow request}. Two buttons, 
-                            \item \textit{Confirmed}, with a date and time, indicating the instant that both the client and that friend share a break, a \textit{Time until}, indicating the duration in time and minutes until that instant begins, and a \textit{Duration}, indicating the duration of the shared break
+                            \item \textit{Pending follow request}, where a friend has requested to \textit{follow} the client, but the client has yet to approve the \textit{follow request}. Two buttons, a $\sqrt{}$ button, and a $\times$ button, allow the client to confirm \textit{follow request}s.
+                            \item \textit{Confirmed}, with a date and time, indicating the instant that both the client and that friend share a break, a \textit{Time until}, indicating the duration in time and minutes until that instant begins, and a \textit{Duration}, indicating the duration of the shared break. Clicking the entry presents a timetable of \textit{breaks} that are shared.
                         \end{itemize}
-                \end{itemize}
-            \item \texttt{Groups}
-                \begin{itemize}
-                    \item Placeholder
                 \end{itemize}
             \item \texttt{Import}
                 \begin{itemize}
