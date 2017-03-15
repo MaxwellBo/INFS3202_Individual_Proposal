@@ -19,11 +19,13 @@
 \date{March 19, 2017}
 \maketitle
 
-\chapter{Theory}
+\chapter{Requirements Engineering}
 
 \section{Rationale}
 
-Designed to solve a very specific problem borne of my own experience at university.
+
+TODO Opening
+esigned to solve a very specific problem borne of my own experience at university.
 
 I noticed that immediately after leaving classes, I was sending similiar message to many group chats across Slack and Facebook, asking if any people wanted to get lunch with me.
 
@@ -83,12 +85,13 @@ A client wishing to use the service (henceforth referred to as \textit{SyncUQ} o
 
 Whenever a client's scheduled classes are ending, and if the client had permitted their mobile app to send them push notifications, the client will be notified of which of their friends are currently are on, or are starting, breaks. \textit{`Opening'} this notification will present the client the \texttt{Friends} tab of the app.
 
+\chapter{Architecture}
 
 \section{Development Language and Environment}
 
 \subsection{Backend}
 
-I identfied 6 of requirements on the backend language and environment.
+Six requirements on the backend language and environment were identified.
 
 \begin{enumerate}
     \item Could not be Perl, PHP, or Java
@@ -116,69 +119,91 @@ If Python were to be used, it would use
     \item The \href{http://flask-sqlalchemy.pocoo.org/2.1/}{Flask-SQLAlchemy} database abstraction layer
     \item The \href{https://pypi.python.org/pypi/icalendar}{icalendar} \textit{iCalendar} parser
     \item The \href{http://mypy-lang.org/}{mypy} static type checker
-    \item Heroku, with the \href{https://github.com/heroku/heroku-buildpack-python}{Python buildpack}
+    \item \href{https://www.heroku.com/}{Heroku}, with the \href{https://github.com/heroku/heroku-buildpack-python}{Python buildpack}
 \end{itemize}
 
 
-\href{https://www.python.org/}Python 3.6
+If Scala were to be used, it would use
+
+\begin{itemize}
+    \item \href{https://www.playframework.com/}{Play} framework, or \href{https://github.com/http4s/http4s}{http4s} interface with \href{https://github.com/circe/circe}{circe} JSON library
+    \item The \href{https://github.com/tpolecat/doobie}{doobie} database abstraction layer
+    \item The \href{https://github.com/ical4j/ical4j}{iCal4j} \textit{iCalendar} parser
+    \item The \href{https://github.com/typelevel/cats}{cats} library for useful functional programing abstractions
+    \item \href{https://www.heroku.com/}{Heroku}, with the \href{https://github.com/heroku/heroku-buildpack-scala}{Scala buildpack}
+\end{itemize}
 
 
-Priorities
-- Mature microframework
-- Mature datetime libarries
-- Decent support for icalendar file format parsing
+With further investigation of the Python and Scala stacks, both were deemed sufficient for use on the project. Ultimately, three, rather insignificant issues, broke the tie.
+
+\begin{enumerate}
+    \item While all members of the group are familiar with the basics of Python, I have intimate knowledge of Scala and thestack described above. Ultimately, the group decided to ensure that all group members would use a language that they were at least moderately familiar with, rather than a sole individual having a large amount of experience, and the rest having none.
+    \item Scala requires \href{https://plugins.jetbrains.com/plugin/1347-scala}{tooling support} to be ergonomic. The group decided that they would rather not burden their laptops limited CPU, memory and battery life with heavyweight IDEs.
+    \item The group decided that they would prefer to prioritize development speed by using a dynamic, interpreted language, with optional \href{http://mypy-lang.org/}{mypy} static type checking, rather than deal with Scala's cripplingly slow compilation and typechecking processes.
+\end{enumerate}
+
+Thus, the Python stack was chosen.
+
+\subsection{Frontend}
 
 
-- All members of the group know it
-- Optional typing system with the typing https://docs.python.org/3/library/typing.html and mypy TODO: href (as I have experience with typed functional languages)
-- Good support for microframeworks (not Ruby)
+Four requirements on the frontend language and environment were identified
 
-Framework: Flask. Not a bigass framework that's confusing and full of footguns, unnecessary garbage and opinionated methods of doig stuff.
-Promoted by Heroku as the framework of choice to use with Python -> going to be a lot of documentaton regarding this stack when things go bad
-
-SQLAlchemy
-
-ical framework looked mature as well
-
-other options considered
+\begin{enumerate}
+    \item Should support a framework that uses a virtual DOM
+    \item Should be easy to learn for group memebers who have no former frontend development experience
+    \item Should support an ergonomic Foreign Function Interface (\textit{FFI}) to Javascript
+    \item Should support the ergonomic use of \href{https://facebook.github.io/react/}{React} components and libraries
+\end{enumerate}
 
 
-Clojure with compojure -> hugo knows some clojure, I'd be willing to learn some. However we were worried that if we got up shit creek clojure would make it very painful to punch our way out considering its functional nature
-
-datetime and ical are obviously very good due to being on the JVM
+A number of considered languages and environments failed to meet these requirements.
 
 
-Rust with Rocket framework. Inferior ical framework. Borrow checker seemed shitty.
+\begin{itemize}
+    \item \href{http://elm-lang.org/}{Elm} failed requirements 3 and 4
+    \item \href{https://www.typescriptlang.org/}{TypeScript} with \href{https://facebook.github.io/react/}{React} failed requirement 2.
+\end{itemize}
 
-Scala. I have a lot of Scala experience. Hugo and Charlie have Java experience so that knowledge was gonna carry over.
+Thus, \href{http://www.purescript.org/}{PureScript} with \href{http://www.purescript-pux.org/}{Pux} was chosen.
 
-Options - Play framework, not microframework
-- HTTP4S, Doobie (database abstraction layer) (type system can get fucked up), Circe JSON encoding (typesafe, pretty cool magic), Cats so Scala wouldn't suck
-
-Heavy, cripling build time, unfamiliar stackt the majority of the group, IDE support required (would rather not)
-
-
+Futhermore, the \href{https://sass-lang.com/}{Sass} framework to be used is \href{http://bulma.io/}{Bulma}, chosen on aesthetic and usability grounds.
 
 
-Rest API, no server side HTML generation. Better decoupling between front-end and back-end. Permits implementation of dynamic SPAs with front-end virtual DOMS. Permits the creation of native mobile apps with react native or some shit later on (although we aren't doing that, you kinda need a REST API for that)
+\subsection{Deployment}
 
-Frontend
+The app is to be auto-deployed to a \href{https://www.heroku.com/}{Heroku} staging environment, triggered by a \href{https://devcenter.heroku.com/articles/github-integration}{GitHub push hook}. Manual deployment, environment configuration, and debugging facilities can be accessed with the \href{https://devcenter.heroku.com/articles/heroku-cli}{Heroku CLI}.
 
-wanted to use a functional compile-to-js language, because fuck javascript
+The use of \href{https://git-scm.com/book/en/v2/Git-Tools-Submodules}{Git Submodules}, with the \href{https://github.com/dmathieu/heroku-buildpack-submodules}{Heroku Submodules Buildpack} allows the frontend and backend repositories to be developed in seperate \textit{Git} repositories, and pulled together during the deployment process.
 
-Understood that some of the solutions and young and immature, but we're hipsters so we want to do that (we're using a tried and tested solution in the backend, lets have some fun in the frontend)
 
-- Escape hatches: import React components, decent Javascript FFI
+\section{Integration}
 
-ClojureScript and https://reagent-project.github.io/ (dismissed because difficult to use syntax, hugo didn't want to)
-Elm (dismissed because JavaScript FFI sucks balls, react integration too)
-PureScript with Pux (good javascript ffi, good react integration)
+Ajax with JSON will mediate client-server communications, with server responses adhearing to the \href{https://google.github.io/styleguide/jsoncstyleguide.xml}{Google JSON Style Guide}.
 
+Endpoints that may need to be implemented 
+
+% GET /friends -> Ok[List[UserID]]
+% GET /token -> FriendToken
+% GET /friends/:userid
+% POST /add_friend?token=<tokenID>
+% GET /groups/
+% GET /groups/:groupid
+% GET /friend_breaks?friendid=<friendID>
+% POST /upload_calendar
+
+
+TODO Something about postgres
+
+TODO Rest API, no server side HTML generation. Better decoupling between front-end and back-end. Permits implementation of dynamic SPAs with front-end virtual DOMS. Permits the creation of native mobile apps with react native or some shit later on (although we aren't doing that, you kinda need a REST API for that)
 
 \chapter{Design}
 
-\chapter{Feature Coverage}
 
+
+\section{UI / UX}
+
+\section{Endpoints}
 
 
  % \begin{figure}[h!]
