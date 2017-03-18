@@ -176,16 +176,19 @@ Thus, \href{http://www.purescript.org/}{PureScript} with \href{http://www.puresc
 Futhermore, the \href{https://sass-lang.com/}{Sass} framework to be used is \href{http://bulma.io/}{Bulma}, chosen on aesthetic and usability grounds.
 
 
-\subsection{Deployment}
+\chapter{Design}
+
+\section{Environment}
 
 The app is to be auto-deployed to a \href{https://www.heroku.com/}{Heroku} staging environment, triggered by a \href{https://devcenter.heroku.com/articles/github-integration}{GitHub push hook}. Manual deployment, environment configuration, and debugging facilities can be accessed with the \href{https://devcenter.heroku.com/articles/heroku-cli}{Heroku CLI}.
 
 The use of \href{https://git-scm.com/book/en/v2/Git-Tools-Submodules}{Git Submodules}, with the \href{https://github.com/dmathieu/heroku-buildpack-submodules}{Heroku Submodules Buildpack} allows the frontend and backend repositories to be developed in seperate \textit{Git} repositories, and pulled together during the deployment process.
 
+\href{https://www.postgresql.org/}{Postgres} was chosen as the database, due to its large community and support from \href{https://www.sqlalchemy.org/}{SQLAlchemy}. Heroku provides integrated Postgres database provisioning through \href{https://www.heroku.com/postgres}{Heroku Postgres}.
 
 \section{Integration}
 
-Ajax with JSON will mediate client-server communications, with server responses adhearing to the \href{https://google.github.io/styleguide/jsoncstyleguide.xml}{Google JSON Style Guide}. d
+The backend will expose a RESTful API. Ajax with JSON will mediate client-server communications, with server responses adhearing to the \href{https://google.github.io/styleguide/jsoncstyleguide.xml}{Google JSON Style Guide}.
 
 \subsection{Endpoints}
 
@@ -199,9 +202,6 @@ REST endpoints that may need to be implemented include
     \item \texttt{...}
 \end{itemize}
 
-\href{https://www.postgresql.org/}{Postgres} was chosen as the database, due to its large community and support from \href{https://www.sqlalchemy.org/}{SQLAlchemy}
-
-\chapter{Design}
 
 \section{UI / UX}
 
