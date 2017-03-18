@@ -76,7 +76,7 @@ A client wishing to use the service (henceforth referred to as \textit{SyncUQ} o
                         \begin{itemize}
                             \item \textit{Pending follow}, where the the friend has not approved their \textit{follow request}
                             \item \textit{Pending follow request}, where a friend has requested to \textit{follow} the client, but the client has yet to approve the \textit{follow request}. Two buttons, a $\sqrt{}$ button, and a $\times$ button, allow the client to confirm \textit{follow request}s.
-                            \item \textit{Confirmed}, with a date and time, indicating the instant that both the client and that friend share a break, a \textit{Time until}, indicating the duration in time and minutes until that instant begins, and a \textit{Duration}, indicating the duration of the shared break. Clicking the entry presents a timetable of \textit{breaks} that are shared.
+                            \item \textit{Confirmed}, with a date and time, indicating the instant that both the client and that friend share a break, a \textit{Time until}, indicating the duration in time and minutes until that instant begins, and a \textit{Duration}, indicating the duration of the shared break. The entry doubles as a progress bar, depicting the progress into the break that friend has made. Clicking the entry presents a timetable of \textit{breaks} that are shared.
                         \end{itemize}
                 \end{itemize}
             \item \texttt{Settings}
@@ -175,20 +175,14 @@ Thus, \href{http://www.purescript.org/}{PureScript} with \href{http://www.puresc
 
 Futhermore, the \href{https://sass-lang.com/}{Sass} framework to be used is \href{http://bulma.io/}{Bulma}, chosen on aesthetic and usability grounds.
 
+To ensure that the service appeals to UQ students, the site's design draws from elements defined in the \href{http://drupal.uq.edu.au/guide/uq-base-theme-style-guide}{\textit{UQ Base theme: Style Guide}}. This includes the liberal use of colours \href{http://www.color-hex.com/color/49075e}{\texttt{\#49075e}} and \href{http://www.color-hex.com/color/ffffff}{\texttt{\#FFFFFF}} - UQ purple and white respectively.
+
 
 \chapter{Design}
 
-\section{Environment}
+\section{Web Standards}
 
-The app is to be auto-deployed to a \href{https://www.heroku.com/}{Heroku} staging environment, triggered by a \href{https://devcenter.heroku.com/articles/github-integration}{GitHub push hook}. Manual deployment, environment configuration, and debugging facilities can be accessed with the \href{https://devcenter.heroku.com/articles/heroku-cli}{Heroku CLI}.
-
-The use of \href{https://git-scm.com/book/en/v2/Git-Tools-Submodules}{Git Submodules}, with the \href{https://github.com/dmathieu/heroku-buildpack-submodules}{Heroku Submodules Buildpack} allows the frontend and backend repositories to be developed in seperate \textit{Git} repositories, and pulled together during the deployment process.
-
-\href{https://www.postgresql.org/}{Postgres} was chosen as the database, due to its large community and support from \href{https://www.sqlalchemy.org/}{SQLAlchemy}. Heroku provides integrated Postgres database provisioning through \href{https://www.heroku.com/postgres}{Heroku Postgres}.
-
-\section{Integration}
-
-The backend will expose a RESTful API. Ajax with JSON will mediate client-server communications, with server responses adhearing to the \href{https://google.github.io/styleguide/jsoncstyleguide.xml}{Google JSON Style Guide}.
+Compliance with web standards ensure accessibility, robustness, interoperability and usability of all webpages and websites. Significant efforts have been made to ensure that the backend exposes an idiomatic, \href{https://http2.github.io/}{standards compliant RESTful API}. Ajax with JSON will mediate client-server communications, with server responses adhering to the \href{https://google.github.io/styleguide/jsoncstyleguide.xml}{Google JSON Style Guide}.
 
 \subsection{Endpoints}
 
@@ -201,6 +195,33 @@ REST endpoints that may need to be implemented include
     \item \texttt{POST /upload\_calendar -> Created[CalendarDetails]}
     \item \texttt{...}
 \end{itemize}
+
+\section{Advanced Features}
+
+Advanced dynamic functionality, powered by PuresScript, includes
+
+\begin{itemize}
+    \item A reactive, \textit{Single Page App}, which permits the following actions to be performed without page reloads:
+        \begin{itemize}
+            \item Sending friend \textit{follow requests}
+            \item Confirm/deny/cancel of \textit{pending follow requests}
+        \end{itemize}
+    \item Advanced visual effects and information display features, including:
+        \begin{itemize}
+            \item In-app alerts
+            \item Dynamic progress bars
+            \item Dynamic timers
+            \item Friend searching and filtering
+        \end{itemize}
+\end{itemize}
+
+\section{Environment}
+
+The app is to be auto-deployed to a \href{https://www.heroku.com/}{Heroku} staging environment, triggered by a \href{https://devcenter.heroku.com/articles/github-integration}{GitHub push hook}. Manual deployment, environment configuration, and debugging facilities can be accessed with the \href{https://devcenter.heroku.com/articles/heroku-cli}{Heroku CLI}.
+
+The use of \href{https://git-scm.com/book/en/v2/Git-Tools-Submodules}{Git Submodules}, with the \href{https://github.com/dmathieu/heroku-buildpack-submodules}{Heroku Submodules Buildpack} allows the frontend and backend repositories to be developed in seperate \textit{Git} repositories, and pulled together during the deployment process.
+
+\href{https://www.postgresql.org/}{Postgres} was chosen as the database, due to its large community and support from \href{https://www.sqlalchemy.org/}{SQLAlchemy}. Heroku provides integrated Postgres database provisioning through \href{https://www.heroku.com/postgres}{Heroku Postgres}.
 
 
 \section{UI / UX}
