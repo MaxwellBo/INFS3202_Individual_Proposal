@@ -27,14 +27,14 @@
 
 The service is designed to solve a very specific problem, borne of my own experience at university.
 
-I noticed that immediately after leaving classes, I was sending similar message to many group chats across Slack and Facebook, asking if any people wanted to get lunch with me.
+I noticed that immediately after leaving classes, I was sending similar message to many group chats across Slack and Facebook, asking if anyone was free for lunch
 
 Thus, I required a service that would:
 
 \begin{itemize}
     \item Be aware of when I was leaving classes
-    \item Be aware of my friends timetables, and when they were likely on breaks between classes
-    \item Inform me, immediately on leaving a class, who was free and how long they are free for
+    \item Be aware of my friends timetables, and when they were likely to be on breaks between classes
+    \item Inform me, immediately on leaving a class, who was free and how long they were free for
 \end{itemize}
 
 My friends also expressed frustration that it was difficult to find times where all members of a certain group had breaks between classes, to coordinate meetups.
@@ -199,7 +199,7 @@ REST endpoints that may need to be implemented include
 
 \section{Advanced Features}
 
-Advanced dynamic functionality, powered by PuresScript, includes
+Advanced dynamic functionality, powered by PureScript, includes
 
 \begin{itemize}
     \item A reactive, \textit{Single Page App}, which permits the following actions to be performed without page reloads:
@@ -222,7 +222,7 @@ The app is to be auto-deployed to a \href{https://www.heroku.com/}{Heroku} stagi
 
 The use of \href{https://git-scm.com/book/en/v2/Git-Tools-Submodules}{Git Submodules}, with the \href{https://github.com/dmathieu/heroku-buildpack-submodules}{Heroku Submodules Buildpack} allows the frontend and backend repositories to be developed in seperate \textit{Git} repositories, and pulled together during the deployment process.
 
-\href{https://www.postgresql.org/}{Postgres} was chosen as the database, due to its large community and support from \href{https://www.sqlalchemy.org/}{SQLAlchemy}. Heroku provides integrated Postgres database provisioning through \href{https://www.heroku.com/postgres}{Heroku Postgres}.
+\href{https://www.postgresql.org/}{Postgres} was chosen as the database, due to its large community and support from \href{https://www.sqlalchemy.org/}{SQLAlchemy}. Heroku provides integrated \href{https://www.postgresql.org/}{Postgres} database provisioning through \href{https://www.heroku.com/postgres}{Heroku Postgres}.
 
 
 \section{UI / UX}
