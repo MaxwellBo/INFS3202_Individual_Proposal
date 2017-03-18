@@ -66,7 +66,7 @@ A client wishing to use the service (henceforth referred to as \textit{SyncUQ} o
         \begin{itemize}
             \item \texttt{Import}
                 \begin{itemize}
-                    \item The client is presented with instructions on how to acquire a calendar link from \href{http://timetableplanner.app.uq.edu.au/}{\texttt{timetableplanner.app.uq.edu.au}} (henceforth referred to as \textit{UQ Timetable Planner}).
+                    \item The client is presented with instructions on how to acquire a calendar link from \href{http://timetableplanner.app.uq.edu.au/}{\texttt{timetableplanner.app.uq.edu.au}}.
                     \item The client may enter this calendar link into a field. Clicking the corresponding \texttt{Submit} button will cause the service to subscribe to the specified calendar.
                 \end{itemize}
             \item \texttt{Friends}
@@ -92,7 +92,6 @@ A client wishing to use the service (henceforth referred to as \textit{SyncUQ} o
 
 \chapter{Architecture}
 
-TODO
 \section{Development Language and Environment}
 
 \subsection{Backend}
@@ -123,6 +122,7 @@ If Python were to be used, it would use
 \begin{itemize} 
     \item The \href{http://flask.pocoo.org/}{Flask} microframework
     \item The \href{http://flask-sqlalchemy.pocoo.org/2.1/}{Flask-SQLAlchemy} database abstraction layer
+    \item The \href{https://docs.python.org/3/library/datetime.html}{\texttt{datetime}} standard library module
     \item The \href{https://pypi.python.org/pypi/icalendar}{icalendar} \textit{iCalendar} parser
     \item The \href{http://mypy-lang.org/}{mypy} static type checker
     \item \href{https://www.heroku.com/}{Heroku}, with the \href{https://github.com/heroku/heroku-buildpack-python}{Python buildpack}
@@ -134,6 +134,7 @@ If Scala were to be used, it would use
 \begin{itemize}
     \item \href{https://www.playframework.com/}{Play} framework, or \href{https://github.com/http4s/http4s}{http4s} interface with \href{https://github.com/circe/circe}{circe} JSON library
     \item The \href{https://github.com/tpolecat/doobie}{doobie} database abstraction layer
+    \item The \href{https://docs.oracle.com/javase/8/docs/api/java/time/package-summary.html}{\texttt{java.time}} library, which is a port of \href{http://www.joda.org/joda-time/}{Joda-Time} into the Java 8 standard library
     \item The \href{https://github.com/ical4j/ical4j}{iCal4j} \textit{iCalendar} parser
     \item The \href{https://github.com/typelevel/cats}{cats} library for useful functional programming abstractions
     \item \href{https://www.heroku.com/}{Heroku}, with the \href{https://github.com/heroku/heroku-buildpack-scala}{Scala buildpack}
