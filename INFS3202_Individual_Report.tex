@@ -27,7 +27,7 @@
 
 The service is designed to solve a very specific problem, borne of my own experience at university.
 
-I noticed that immediately after leaving classes, I was sending similiar message to many group chats across Slack and Facebook, asking if any people wanted to get lunch with me.
+I noticed that immediately after leaving classes, I was sending similar message to many group chats across Slack and Facebook, asking if any people wanted to get lunch with me.
 
 Thus, I required a service that would:
 
@@ -47,7 +47,7 @@ They required a service that would:
     \item Create a list of free times that the group can meet together
 \end{itemize}
 
-I realized that both of these problems could be addressed by very similiar services. 
+I realised that both of these problems could be addressed by very similar services. 
 
 \section{Business Function}
 
@@ -135,7 +135,7 @@ If Scala were to be used, it would use
     \item \href{https://www.playframework.com/}{Play} framework, or \href{https://github.com/http4s/http4s}{http4s} interface with \href{https://github.com/circe/circe}{circe} JSON library
     \item The \href{https://github.com/tpolecat/doobie}{doobie} database abstraction layer
     \item The \href{https://github.com/ical4j/ical4j}{iCal4j} \textit{iCalendar} parser
-    \item The \href{https://github.com/typelevel/cats}{cats} library for useful functional programing abstractions
+    \item The \href{https://github.com/typelevel/cats}{cats} library for useful functional programming abstractions
     \item \href{https://www.heroku.com/}{Heroku}, with the \href{https://github.com/heroku/heroku-buildpack-scala}{Scala buildpack}
 \end{itemize}
 
@@ -143,9 +143,9 @@ If Scala were to be used, it would use
 With further investigation of the Python and Scala stacks, both were deemed sufficient for use on the project. Ultimately, three, rather insignificant issues, broke the tie.
 
 \begin{enumerate}
-    \item While all members of the group are familiar with the basics of Python, I have intimate knowledge of Scala and thestack described above. Ultimately, the group decided to ensure that all group members would use a language that they were at least moderately familiar with, rather than a sole individual having a large amount of experience, and the rest having none.
+    \item While all members of the group are familiar with the basics of Python, I have intimate knowledge of Scala and the stack described above. Ultimately, the group decided to ensure that all group members would use a language that they were at least moderately familiar with, rather than a sole individual having a large amount of experience, and the rest having none.
     \item Scala requires \href{https://plugins.jetbrains.com/plugin/1347-scala}{tooling support} to be ergonomic. The group decided that they would rather not burden their laptops limited CPU, memory and battery life with heavyweight IDEs.
-    \item The group decided that they would prefer to prioritize development speed by using a dynamic, interpreted language, with optional \href{http://mypy-lang.org/}{mypy} static type checking, rather than deal with Scala's cripplingly slow compilation and typechecking processes.
+    \item The group decided that they would prefer to prioritise development speed by using a dynamic, interpreted language, with optional \href{http://mypy-lang.org/}{mypy} static type checking, rather than deal with Scala's cripplingly slow compilation and typechecking processes.
 \end{enumerate}
 
 Thus, the Python stack was chosen.
@@ -157,7 +157,7 @@ Four requirements on the frontend language and environment were identified
 
 \begin{enumerate}
     \item Should support a framework that uses a virtual DOM
-    \item Should be easy to learn for group memebers who have no former frontend development experience
+    \item Should be easy to learn for group members who have no former frontend development experience
     \item Should support an ergonomic Foreign Function Interface (\textit{FFI}) to Javascript
     \item Should support the ergonomic use of \href{https://facebook.github.io/react/}{React} components and libraries
 \end{enumerate}
@@ -173,7 +173,7 @@ A number of considered languages and environments failed to meet these requireme
 
 Thus, \href{http://www.purescript.org/}{PureScript} with \href{http://www.purescript-pux.org/}{Pux} was chosen.
 
-Futhermore, the \href{https://sass-lang.com/}{Sass} framework to be used is \href{http://bulma.io/}{Bulma}, chosen on aesthetic and usability grounds.
+Furthermore, the \href{https://sass-lang.com/}{Sass} framework to be used is \href{http://bulma.io/}{Bulma}, chosen on aesthetic and usability grounds.
 
 To ensure that the service appeals to UQ students, the site's design draws from elements defined in the \href{http://drupal.uq.edu.au/guide/uq-base-theme-style-guide}{\textit{UQ Base theme: Style Guide}}. This includes the liberal use of colours \href{http://www.color-hex.com/color/49075e}{\texttt{\#49075e}} and \href{http://www.color-hex.com/color/ffffff}{\texttt{\#FFFFFF}} - UQ purple and white respectively.
 
