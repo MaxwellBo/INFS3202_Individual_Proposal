@@ -1,6 +1,7 @@
 \documentclass[8pt,a4paper]{report}
 
-\usepackage[margin=1in]{geometry}
+\usepackage{fullpage}
+% \usepackage[margin=1in]{geometry}
 \usepackage[utf8]{inputenc}
 
 \usepackage{graphicx}
@@ -24,8 +25,7 @@
 \section{Rationale}
 
 
-TODO Opening
-esigned to solve a very specific problem borne of my own experience at university.
+The service is designed to solve a very specific problem, borne of my own experience at university.
 
 I noticed that immediately after leaving classes, I was sending similiar message to many group chats across Slack and Facebook, asking if any people wanted to get lunch with me.
 
@@ -58,16 +58,20 @@ A client wishing to use the service (henceforth referred to as \textit{SyncUQ} o
 \begin{itemize}
     \item If the client is using a 
         \begin{itemize} 
-            \item desktop, upon navigating to \href{http://www.syncuq.com.au/}{\texttt{syncuq.com.au}}, the client is presented the UQ Single Sign-On (henceforth referred to as \textit{UQ SSO}).
-            \item mobile, using the \textit{SyncUQ} app, the client is asked whether they would like to permit the app to send them push notifications. The client is then presented the \textit {UQ SSO}.
+            \item desktop, upon navigating to \href{http://www.syncuq.com.au/}{\texttt{syncuq.com.au}}, the client is presented a landing page, advertising the features of \textit{SyncUQ}. A button allows the client to use \href{https://developers.facebook.com/docs/facebook-login}{\textit{Facebook Login}}, so that they may use the service.
+            \item mobile, using the \textit{SyncUQ} app, the client is asked whether they would like to permit the app to send them push notifications. The client is then presented the landing page.
         \end{itemize}
-    \item After signing on with the UQ credentials, a dropdown of timetables, allows the client to choose which timetable is to be imported from \href{http://timetableplanner.app.uq.edu.au/}{\texttt{timetableplanner.app.uq.edu.au}} (henceforth referred to as \textit{UQ Timetable Planner}). A single \texttt{Import} button, allows the client to confirm their selection.
+    \item After completing the \href{https://developers.facebook.com/docs/facebook-login}{\textit{Facebook Login}}, the primary app interface is presented.
     \item The client is presented a choice of different tabs, corresponding to different features. Each tab, presents a different workflow.
         \begin{itemize}
+            \item \texttt{Import}
+                \begin{itemize}
+                    \item The client is presented with instructions on how to acquire a calendar link from \href{http://timetableplanner.app.uq.edu.au/}{\texttt{timetableplanner.app.uq.edu.au}} (henceforth referred to as \textit{UQ Timetable Planner}).
+                    \item The client may enter this calendar link into a field. Clicking the corresponding \texttt{Submit} button will cause the service to subscribe to the specified calendar.
+                \end{itemize}
             \item \texttt{Friends}
                 \begin{itemize}
-                    \item The client is presented with a \textit{`friend token'}, which they may send to a present to a friend that they wish to \textit{`follow'}.
-                    \item The client is presented with a field that allows them to enter a \textit{friend token}, 
+                    \item The client is presented with an \texttt{Add Friends} button. Clicking this button presents a list of \textit{SyncUQ} users, who are also Facebook friends of the client. Clicking a friend's corresponding \texttt{Follow} button, sends a \textit{follow request}.
                     \item The client is presented with a list of friends that they have \textit{followed}. These entries have two forms: 
                         \begin{itemize}
                             \item \textit{Pending follow}, where the the friend has not approved their \textit{follow request}
@@ -75,18 +79,20 @@ A client wishing to use the service (henceforth referred to as \textit{SyncUQ} o
                             \item \textit{Confirmed}, with a date and time, indicating the instant that both the client and that friend share a break, a \textit{Time until}, indicating the duration in time and minutes until that instant begins, and a \textit{Duration}, indicating the duration of the shared break. Clicking the entry presents a timetable of \textit{breaks} that are shared.
                         \end{itemize}
                 \end{itemize}
-            \item \texttt{Import}
-                \begin{itemize}
-                    \item The client is presented with the same screen as \textit{Step 2}, so that they may refresh their chosen timetable, in the event that that they may have modified their timetable on \textit{UQ Timetable Planner}, or a new semester has begun.
-                \end{itemize}
             \item \texttt{Settings}
+                \begin{itemize}
+                    \item The client is presented with a list of settings, that may include:
+                        \begin{itemize}
+                            \item A toggle for \textit{Incognito Mode}, which, when enabled, prevents a clients friends from seeing their breaks
+                            \item A toggle for \textit{Notifications at end of classes}, which, when enabled, whenever a client's scheduled classes are ending, the client will be notified of which of their friends are currently are on, or are starting, breaks. \textit{`Opening'} this notification will present the client the \texttt{Friends} tab of the app. Enabling this option would prompt the client to enable push notifications on their mobile device, if the app has not already done so.
+                        \end{itemize}
+                \end{itemize}
         \end{itemize}
 \end{itemize}
 
-Whenever a client's scheduled classes are ending, and if the client had permitted their mobile app to send them push notifications, the client will be notified of which of their friends are currently are on, or are starting, breaks. \textit{`Opening'} this notification will present the client the \texttt{Friends} tab of the app.
-
 \chapter{Architecture}
 
+TODO
 \section{Development Language and Environment}
 
 \subsection{Backend}
@@ -181,17 +187,7 @@ The use of \href{https://git-scm.com/book/en/v2/Git-Tools-Submodules}{Git Submod
 
 Ajax with JSON will mediate client-server communications, with server responses adhearing to the \href{https://google.github.io/styleguide/jsoncstyleguide.xml}{Google JSON Style Guide}.
 
-TODO Something about postgres
-
-TODO Rest API, no server side HTML generation. Better decoupling between front-end and back-end. Permits implementation of dynamic SPAs with front-end virtual DOMS. Permits the creation of native mobile apps with react native or some shit later on (although we aren't doing that, you kinda need a REST API for that)
-
-\chapter{Design}
-
-
-
-\section{UI / UX}
-
-\section{Endpoints}
+\subsection{Endpoints}
 
 REST endpoints that may need to be implemented include
 
@@ -208,11 +204,30 @@ REST endpoints that may need to be implemented include
     \item \texttt{...}
 \end{itemize}
 
+TODO Something about postgres
+
+TODO Rest API, no server side HTML generation. Better decoupling between front-end and back-end. Permits implementation of dynamic SPAs with front-end virtual DOMS. Permits the creation of native mobile apps with react native or some shit later on (although we aren't doing that, you kinda need a REST API for that)
+
+\chapter{Design}
 
 
- % \begin{figure}[h!]
- %    \centering
- %    \includegraphics[width=0.7\textwidth]{Contributions.png}
- % \end{figure}
+\section{UI / UX}
+
+\centering
+\includegraphics[width=0.9\textwidth]{Homepage.png}
+\medskip
+\centering
+\medskip
+\includegraphics[width=0.9\textwidth]{Import.png}
+\medskip
+\centering
+\includegraphics[width=0.9\textwidth]{Friends.png}
+\medskip
+\centering
+\includegraphics[width=0.9\textwidth]{Settings.png}
+\medskip
+\centering
+\includegraphics[width=0.4\textwidth]{Mobile.png}
+
 
 \end{document}
