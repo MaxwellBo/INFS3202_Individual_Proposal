@@ -181,20 +181,6 @@ The use of \href{https://git-scm.com/book/en/v2/Git-Tools-Submodules}{Git Submod
 
 Ajax with JSON will mediate client-server communications, with server responses adhearing to the \href{https://google.github.io/styleguide/jsoncstyleguide.xml}{Google JSON Style Guide}.
 
-Endpoints that may need to be implement include
-
-% \begin{lstlisting}
-% \texttt{GET /friends -> Ok[List[UserID]]}
-% \texttt{GET /token -> FriendToken}
-% GET /friends/:userid
-% POST /add_friend?token=<tokenID>
-% GET /groups/
-% GET /groups/:groupid
-% GET /friend_breaks?friendid=<friendID>
-% POST /upload_calendar
-% \end{lstlisting}
-
-
 TODO Something about postgres
 
 TODO Rest API, no server side HTML generation. Better decoupling between front-end and back-end. Permits implementation of dynamic SPAs with front-end virtual DOMS. Permits the creation of native mobile apps with react native or some shit later on (although we aren't doing that, you kinda need a REST API for that)
@@ -206,6 +192,22 @@ TODO Rest API, no server side HTML generation. Better decoupling between front-e
 \section{UI / UX}
 
 \section{Endpoints}
+
+REST endpoints that may need to be implemented include
+
+\begin{itemize}
+    \item \texttt{GET /token -> Ok[FriendToken]}
+    \item \texttt{POST /add\_friend?token=<FriendToken> -> Ok[Empty]}
+    \item \texttt{GET /friends -> Ok[List[UserID]]}
+    \item \texttt{GET /friends/:userid -> Ok[FriendDetails]}
+    \item \texttt{GET /friend\_breaks?friendid=<friendID> -> Ok[List[Break]]}
+    \item \texttt{POST /create\_group -> Created[GroupID]}
+    \item \texttt{GET /groups -> Ok[List[GroupID]]}
+    \item \texttt{GET /groups/:groupid -> Ok[GroupDetails]}
+    \item \texttt{POST /upload\_calendar -> Created[CalendarDetails]}
+    \item \texttt{...}
+\end{itemize}
+
 
 
  % \begin{figure}[h!]
